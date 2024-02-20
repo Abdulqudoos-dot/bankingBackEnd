@@ -13,10 +13,29 @@ exports.addBank = asyncHandler(async (req, res, next) => {
 });
 
 exports.getAllBanks = asyncHandler(async (req, res, next) => {
-  //   const data = req.body;
-  let data = await BankData.find();
-  console.log(data);
-  res.json({ data });
+  let banks = await BankData.find();
+  let bankDetails = await BankDetails.find();
+
+  console.log("Banks:", banks);
+  console.log("Bank Details:", bankDetails);
+
+  let banksWithDetails = banks.map((bank) => {
+    let bankDetailsForBank = bankDetails.filter(
+      (bankDetail) => bankDetail.bankId.toString() === bank._id.toString()
+    );
+
+    return {
+      bank,
+      bankDetails:
+        bankDetailsForBank.length > 0
+          ? bankDetailsForBank
+          : "No details available",
+    };
+  });
+
+  console.log("Banks with Details:", banksWithDetails);
+
+  res.json(banksWithDetails);
 });
 
 exports.updateBank = asyncHandler(async (req, res, next) => {
