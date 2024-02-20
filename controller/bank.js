@@ -14,7 +14,7 @@ exports.addBank = asyncHandler(async (req, res, next) => {
 
 exports.getAllBanks = asyncHandler(async (req, res, next) => {
   //   const data = req.body;
-  let data = await BankData.find();
+  let data = await BankData.findOne();
   console.log(data);
   res.json({ data });
 });
