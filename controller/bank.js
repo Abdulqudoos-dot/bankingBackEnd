@@ -35,7 +35,7 @@ exports.getAllBanks = asyncHandler(async (req, res, next) => {
 
   console.log("Banks with Details:", banksWithDetails);
 
-  res.json(banksWithDetails);
+  res.json({ banksWithDetails });
 });
 
 exports.updateBank = asyncHandler(async (req, res, next) => {
