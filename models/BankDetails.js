@@ -2,6 +2,10 @@ const mongoose = require("mongoose");
 
 let bankDetailSchema = new mongoose.Schema(
   {
+    bankId: {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: "bank",
+    },
     date: {
       type: Date,
     },
