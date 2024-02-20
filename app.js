@@ -18,7 +18,7 @@ app.get("/", (req, res) => {
 
 app.use("/api/v1/auth", require("./routes/auth"));
 app.use("/api/v1/bank", require("./routes/bankData"));
-
+app.use("/api/v1/currency", require("./routes/currency"));
 app.use(errorHandle);
 
 const server = app.listen(port, () => {
