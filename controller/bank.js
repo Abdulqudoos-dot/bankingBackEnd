@@ -6,16 +6,14 @@ const BankDetails = require("../models/BankDetails");
 const ErrorResponse = require("../utils/errorResponce");
 
 exports.addBank = asyncHandler(async (req, res, next) => {
-  //   const data = req.body;
   let data = await BankData.create(req.body);
-  console.log(data);
+
   res.json({ data });
 });
 
 exports.getAllBanks = asyncHandler(async (req, res, next) => {
   //   const data = req.body;
   let data = await BankData.find();
-  console.log(data);
   res.json({ data });
 });
 
