@@ -1,8 +1,10 @@
 const cors = require("cors");
 const express = require("express");
+require("dotenv").config();
+
 const path = require("path");
 const errorHandle = require("./utils/errorHandler");
-const port = 5000;
+const port = process.env.PORT || 5000;
 require("colors");
 require("./config/db");
 
@@ -16,9 +18,9 @@ app.get("/", (req, res) => {
   res.json({ success: "true" });
 });
 
-app.use("/api/v1/auth", require("./routes/auth"));
-app.use("/api/v1/bank", require("./routes/bankData"));
-app.use("/api/v1/currency", require("./routes/currency"));
+app.use("/api/v1/auth", require("./api/routes/auth"));
+app.use("/api/v1/bank", require("./api/routes/bankData"));
+app.use("/api/v1/currency", require("./api/routes/currency"));
 app.use(errorHandle);
 
 const server = app.listen(port, () => {
@@ -33,4 +35,3 @@ process.on("unhandledRejection", (err, promise) => {
     process.exit(1);
   });
 });
-module.exports = app;

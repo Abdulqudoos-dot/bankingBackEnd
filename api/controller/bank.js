@@ -1,9 +1,9 @@
 const asyncHandler = require("../middleware/asynce");
+const ErrorResponse = require("../../utils/errorResponce");
 const BankData = require("../models/BankData");
 const BankDetails = require("../models/BankDetails");
 // const User = require("../models/User");
 // const jwt = require("jsonwebtoken");
-const ErrorResponse = require("../utils/errorResponce");
 
 exports.addBank = asyncHandler(async (req, res, next) => {
   let data = await BankData.create(req.body);

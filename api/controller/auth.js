@@ -1,7 +1,7 @@
 const asyncHandler = require("../middleware/asynce");
 const User = require("../models/User");
 const jwt = require("jsonwebtoken");
-const ErrorResponse = require("../utils/errorResponce");
+const ErrorResponse = require("../../utils/errorResponce");
 
 exports.register = asyncHandler(async (req, res, next) => {
   const { username, email, password } = req.body;
