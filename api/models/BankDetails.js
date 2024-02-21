@@ -10,7 +10,7 @@ let bankDetailSchema = new mongoose.Schema(
       type: Date,
     },
     checkNo: {
-      type: Number,
+      type: String,
       required: true,
     },
     payee: {
@@ -26,16 +26,16 @@ let bankDetailSchema = new mongoose.Schema(
       required: true,
     },
     payment: {
-      type: Number,
+      type: String,
       required: true,
     },
 
     deposit: {
-      type: Number,
+      type: String,
       required: true,
     },
     amount: {
-      type: Number,
+      type: String,
       required: true,
     },
   },
