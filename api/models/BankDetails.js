@@ -27,16 +27,13 @@ let bankDetailSchema = new mongoose.Schema(
     },
     payment: {
       type: String,
-      required: true,
     },
 
     deposit: {
       type: String,
-      required: true,
     },
     amount: {
       type: String,
-      required: true,
     },
   },
   { timestamps: true }
