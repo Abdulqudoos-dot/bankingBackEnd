@@ -32,7 +32,6 @@ exports.updateBank = asyncHandler(async (req, res, next) => {
   let data = await BankData.findByIdAndUpdate(req.params.bankId, req.body, {
     new: true,
   });
-  console.log(data);
   res.json({ data });
 });
 
