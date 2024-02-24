@@ -4,13 +4,13 @@ const jwt = require("jsonwebtoken");
 const ErrorResponse = require("../../utils/errorResponce");
 
 exports.register = asyncHandler(async (req, res, next) => {
-  const { username, email, password } = req.body;
-  const user = await User.create({ username, email, password });
+  req.body;
+  const user = await User.create(req.body);
   const token = jwt.sign({ id: user.id }, "1234bandaenacheez1234", {
     expiresIn: "30d",
   });
 
-  sendTokenResponse(token, 200, res);
+  sendTokenResponse(token, 200, user, res);
 });
 
 exports.login = asyncHandler(async (req, res, next) => {
@@ -28,10 +28,10 @@ exports.login = asyncHandler(async (req, res, next) => {
   const token = jwt.sign({ id: user.id }, "1234bandaenacheez1234", {
     expiresIn: "30d",
   });
-  sendTokenResponse(token, 200, res);
+  sendTokenResponse(token, 200, user, res);
 });
 
-const sendTokenResponse = (token, statusCode, res) => {
+const sendTokenResponse = (token, statusCode, user, res) => {
   const options = {
     expires: new Date(Date.now() + 30 * 24 * 60 * 60 * 1000),
     httpOnly: true,
@@ -39,5 +39,42 @@ const sendTokenResponse = (token, statusCode, res) => {
   res
     .status(statusCode)
     .cookie("token", token, options)
-    .json({ success: true, token });
+    .json({ success: true, token, user });
 };
+
+exports.getAllUsers = asyncHandler(async (req, res, next) => {
+  const users = await User.find();
+  res.status(200).json(users);
+});
+
+// @desc    Edit user by ID
+// @route   PUT /api/admin/users/:id
+// @access  Private (only accessible to admin)
+exports.editUser = asyncHandler(async (req, res, next) => {
+  const user = await User.findByIdAndUpdate(req.params.id, req.body, {
+    new: true,
+    runValidators: true,
+  });
+
+  if (!user) {
+    return next(
+      new ErrorResponse(`User not found with id ${req.params.id}`, 404)
+    );
+  }
+
+  res.status(200).json(user);
+});
+
+// @desc    Delete user by ID
+// @route   DELETE /api/admin/users/:id
+// @access  Private (only accessible to admin)
+exports.deleteUser = asyncHandler(async (req, res, next) => {
+  const user = await User.findByIdAndDelete(req.params.id);
+  if (!user) {
+    return next(
+      new ErrorResponse(`User not found with id ${req.params.id}`, 404)
+    );
+  }
+
+  res.status(200).json({ success: true, data: {} });
+});

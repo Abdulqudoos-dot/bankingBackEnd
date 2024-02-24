@@ -3,6 +3,10 @@ const Currency = require("./Currency");
 
 let bankSchema = new mongoose.Schema(
   {
+    userId: {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: "user",
+    },
     bankName: {
       type: String,
       required: true,
