@@ -43,6 +43,10 @@ const sendTokenResponse = (token, statusCode, user, res) => {
 };
 
 exports.getAllUsers = asyncHandler(async (req, res, next) => {
+  const user = await User.findById(req.user);
+  if (!user || !user.isAdmin) {
+    return next(new ErrorResponse(`Not allowed`, 401));
+  }
   const users = await User.find();
   res.status(200).json(users);
 });

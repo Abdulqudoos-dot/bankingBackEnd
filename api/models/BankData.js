@@ -47,12 +47,12 @@ bankSchema.pre("findOneAndUpdate", async function (next) {
     const currency = await Currency.findOne({
       currencyCode: this._update.currency,
     });
+    console.log(currency);
 
     if (!currency) {
       return next(new Error("Currency not found: " + this._update.currency));
     }
 
-    console.log(currency.exchangeRate);
     this._update.usdBalance = this._update.balance * currency.exchangeRate;
     next();
   } catch (error) {

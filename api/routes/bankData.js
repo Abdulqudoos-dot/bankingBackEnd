@@ -7,15 +7,21 @@ const {
   deleteBank,
   addBankDetails,
   getBankDetail,
+  getBankDetailByUser,
+  getBank,
 } = require("../controller/bank");
 const fechUser = require("../middleware/fechUser");
 const router = express.Router();
 
 router.route("/addBank").post(fechUser, addBank);
 router.route("/getAllBanks").get(fechUser, getAllBanks);
+router.route("/getBank/:bankId").get(fechUser, getBank);
 router.route("/:bankId").put(fechUser, updateBank).delete(fechUser, deleteBank);
 
 router.route("/addDetails/:bankId").post(fechUser, addBankDetails);
 router.route("/getDetails/:bankId").get(fechUser, getBankDetail);
+router
+  .route("/getDetailsbyUser/:bankId/:BankDetailsUser")
+  .get(getBankDetailByUser);
 
 module.exports = router;
