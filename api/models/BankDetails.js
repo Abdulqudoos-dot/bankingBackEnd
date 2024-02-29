@@ -37,7 +37,7 @@ let bankDetailSchema = new mongoose.Schema(
     deposit: {
       type: String,
     },
-    amount: {
+    balance: {
       type: String,
     },
   },

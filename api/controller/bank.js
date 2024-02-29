@@ -158,3 +158,78 @@ exports.getBankDetailByUser = asyncHandler(async (req, res, next) => {
   console.log(data);
   res.json({ data });
 });
+
+exports.updateBankDetail = asyncHandler(async (req, res, next) => {
+  const userId = req.user;
+  const bankDetailId = req.params.bankDetailId;
+
+  const user = await User.findById(userId);
+  if (!user) {
+    return next(new ErrorResponse(`Not allowed`, 401));
+  }
+
+  // Check if the bank detail exists
+  const bankDetail = await BankDetails.findById(bankDetailId);
+  if (!bankDetail) {
+    return next(
+      new ErrorResponse(
+        `Bank detail not found with the id of ${bankDetailId}`,
+        404
+      )
+    );
+  }
+  // Check if the user is an admin or the owner of the bank
+  const isAdmin = user.isAdmin;
+  const isOwner = bankDetail.userId.equals(userId);
+
+  if (!(isAdmin || isOwner)) {
+    return next(
+      new ErrorResponse(`You are not allowed to edit this bank`, 403)
+    );
+  }
+
+  // Update the bank data
+  const updatedBankDetail = await BankDetails.findByIdAndUpdate(
+    bankDetailId,
+    req.body,
+    {
+      new: true,
+    }
+  );
+  console.log(updatedBankDetail);
+  res.json({ data: updatedBankDetail });
+});
+
+exports.deleteBankDetail = asyncHandler(async (req, res, next) => {
+  const userId = req.user;
+  const bankDetailId = req.params.bankDetailId;
+
+  const user = await User.findById(userId);
+  if (!user) {
+    return next(new ErrorResponse(`Not allowed`, 401));
+  }
+
+  // Check if the bank detail exists
+  const bankDetail = await BankDetails.findById(bankDetailId);
+  if (!bankDetail) {
+    return next(
+      new ErrorResponse(
+        `Bank detail not found with the id of ${bankDetailId}`,
+        404
+      )
+    );
+  }
+  // Check if the user is an admin or the owner of the bank
+  const isAdmin = user.isAdmin;
+  const isOwner = bankDetail.userId.equals(userId);
+
+  if (!(isAdmin || isOwner)) {
+    return next(
+      new ErrorResponse(`You are not allowed to edit this bank`, 403)
+    );
+  }
+
+  // Update the bank data
+  await BankDetails.findByIdAndDelete(bankDetailId);
+  res.json({ success: true });
+});
